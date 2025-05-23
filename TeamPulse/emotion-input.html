@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Input - TeamPulse</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>TeamPulse</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+                    <li><a href="emotion-input.html" class="active"><i class="fas fa-face-smile"></i>Emotion Input</a></li>
+                    <li><a href="emotion-tracker.html"><i class="fas fa-video"></i>Emotion Tracker</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i>History</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-comments"></i>Feedback</a></li>
+                    <li><a href="settings.html"><i class="fas fa-gear"></i>Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="section-header">
+                <h2>Emotion Input</h2>
+                <p>Express your emotions through video, audio, or text</p>
+            </div>
+
+            <div class="input-methods">
+                <!-- Video Input -->
+                <div class="input-card">
+                    <div class="input-header">
+                        <i class="fas fa-video"></i>
+                        <h3>Video Input</h3>
+                    </div>
+                    <div class="video-container">
+                        <video id="videoFeed" autoplay muted></video>
+                        <div class="controls">
+                            <button id="startVideo" class="btn"><i class="fas fa-play"></i> Start Camera</button>
+                            <button id="captureVideo" class="btn" disabled><i class="fas fa-camera"></i> Capture</button>
+                        </div>
+                    </div>
+                    <div class="mood-rating">
+                        <h4>Rate your mood</h4>
+                        <div class="rating">
+                            <input type="radio" name="videoMood" id="video1" value="1">
+                            <label for="video1">1</label>
+                            <input type="radio" name="videoMood" id="video2" value="2">
+                            <label for="video2">2</label>
+                            <input type="radio" name="videoMood" id="video3" value="3">
+                            <label for="video3">3</label>
+                            <input type="radio" name="videoMood" id="video4" value="4">
+                            <label for="video4">4</label>
+                            <input type="radio" name="videoMood" id="video5" value="5">
+                            <label for="video5">5</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Input -->
+                <div class="input-card">
+                    <div class="input-header">
+                        <i class="fas fa-microphone"></i>
+                        <h3>Audio Input</h3>
+                    </div>
+                    <div class="audio-container">
+                        <div class="audio-visualizer" id="audioVisualizer"></div>
+                        <div class="controls">
+                            <button id="startAudio" class="btn"><i class="fas fa-microphone"></i> Start Recording</button>
+                            <button id="stopAudio" class="btn" disabled><i class="fas fa-stop"></i> Stop</button>
+                        </div>
+                    </div>
+                    <div class="mood-rating">
+                        <h4>Rate your mood</h4>
+                        <div class="rating">
+                            <input type="radio" name="audioMood" id="audio1" value="1">
+                            <label for="audio1">1</label>
+                            <input type="radio" name="audioMood" id="audio2" value="2">
+                            <label for="audio2">2</label>
+                            <input type="radio" name="audioMood" id="audio3" value="3">
+                            <label for="audio3">3</label>
+                            <input type="radio" name="audioMood" id="audio4" value="4">
+                            <label for="audio4">4</label>
+                            <input type="radio" name="audioMood" id="audio5" value="5">
+                            <label for="audio5">5</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Input -->
+                <div class="input-card">
+                    <div class="input-header">
+                        <i class="fas fa-keyboard"></i>
+                        <h3>Text Input</h3>
+                    </div>
+                    <div class="text-container">
+                        <textarea id="emotionText" placeholder="Describe how you're feeling..."></textarea>
+                    </div>
+                    <div class="mood-rating">
+                        <h4>Rate your mood</h4>
+                        <div class="rating">
+                            <input type="radio" name="textMood" id="text1" value="1">
+                            <label for="text1">1</label>
+                            <input type="radio" name="textMood" id="text2" value="2">
+                            <label for="text2">2</label>
+                            <input type="radio" name="textMood" id="text3" value="3">
+                            <label for="text3">3</label>
+                            <input type="radio" name="textMood" id="text4" value="4">
+                            <label for="text4">4</label>
+                            <input type="radio" name="textMood" id="text5" value="5">
+                            <label for="text5">5</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="submitEmotions" class="submit-btn">Submit Emotions</button>
+        </main>
+    </div>
+
+    <script src="js/dataService.js"></script>
+    <script src="js/emotionAnalyzer.js"></script>
+    <script src="js/emotion-input.js"></script>
+    <style>
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .notification.success { background-color: #2ecc71; }
+        .notification.error { background-color: #e74c3c; }
+        .notification.info { background-color: #3498db; }
+        .notification.warning { background-color: #f39c12; }
+        .notification.fade-out { opacity: 0; }
+    </style>
+</body>
+</html>

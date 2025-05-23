@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TeamPulse</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>TeamPulse</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+                    <li><a href="emotion-input.html"><i class="fas fa-face-smile"></i>Emotion Input</a></li>
+                    <li><a href="emotion-tracker.html"><i class="fas fa-video"></i>Emotion Tracker</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i>History</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-comments"></i>Feedback</a></li>
+                    <li><a href="settings.html"><i class="fas fa-gear"></i>Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="section-header">
+                <h2>Team Mood Overview</h2>
+                <p>Track and analyze your team's emotional well-being</p>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Team Average Mood</h4>
+                    <div class="stat-value" id="avgMood">--</div>
+                    <div class="meter">
+                        <div class="meter-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="stat-trend" id="moodTrend"></div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Stress Level</h4>
+                    <div class="stat-value" id="stressLevel">--</div>
+                    <div class="meter">
+                        <div class="meter-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Team Engagement</h4>
+                    <div class="stat-value" id="engagement">--</div>
+                    <div class="meter">
+                        <div class="meter-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Total Responses</h4>
+                    <div class="stat-value" id="responses">0</div>
+                    <div class="stat-trend" id="responsesTrend"></div>
+                </div>
+            </div>
+            
+            <!-- Mood Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Mood Over Time</h3>
+                    <div class="chart-controls">
+                        <button class="btn btn-sm active" data-period="week">Week</button>
+                        <button class="btn btn-sm" data-period="month">Month</button>
+                        <button class="btn btn-sm" data-period="year">Year</button>
+                        <select id="chartType" class="chart-type-select">
+                            <option value="line">Line Chart</option>
+                            <option value="bar">Bar Chart</option>
+                        </select>
+                    </div>
+                </div>
+                <canvas id="moodChart"></canvas>
+            </div>
+            
+            <!-- Mood Distribution -->
+            <div class="chart-container half">
+                <h3>Mood Distribution</h3>
+                <canvas id="moodDistributionChart"></canvas>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="chart-container half">
+                <div class="chart-header">
+                    <h3>Recent Activity</h3>
+                    <button id="refreshActivity" class="btn-icon" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div id="recentActivity" class="activity-feed">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p>No recent activity. Start tracking your mood to see data here.</p>
+                            <small>Just now</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Insights -->
+            <div class="insights-container">
+                <h3>Team Insights</h3>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <h4>Peak Performance Times</h4>
+                        </div>
+                        <p>Team shows highest engagement between 9 AM - 11 AM</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h4>Stress Patterns</h4>
+                        </div>
+                        <p>Increased stress levels noticed during project deadlines</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <i class="fas fa-users"></i>
+                            <h4>Team Dynamics</h4>
+                        </div>
+                        <p>Positive collaboration trends in cross-functional teams</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Quick Actions Panel -->
+        <aside class="quick-actions">
+            <div class="quick-actions-header">
+                <h3>Quick Actions</h3>
+            </div>
+            <div class="quick-actions-content">
+                <button class="action-btn" onclick="window.location.href='emotion-input.html'">
+                    <i class="fas fa-plus"></i>
+                    Record Emotion
+                </button>
+                <button class="action-btn" onclick="window.location.href='feedback.html'">
+                    <i class="fas fa-comment"></i>
+                    Give Feedback
+                </button>
+                <button class="action-btn" id="generateReport">
+                    <i class="fas fa-file-alt"></i>
+                    Generate Report
+                </button>
+            </div>
+
+            <!-- Alerts Section -->
+            <div class="alerts-section">
+                <h3>Recent Alerts</h3>
+                <div class="alerts-list" id="alertsList">
+                    <!-- Alerts will be dynamically added here -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/dataService.js"></script>
+    <script src="js/emotionAnalyzer.js"></script>
+    <script src="js/dashboard.js"></script>
+    <style>
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .notification.success { background-color: #2ecc71; }
+        .notification.error { background-color: #e74c3c; }
+        .notification.info { background-color: #3498db; }
+        .notification.warning { background-color: #f39c12; }
+        .notification.fade-out { opacity: 0; }
+    </style>
+</body>
+</html>

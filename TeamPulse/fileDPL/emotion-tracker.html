@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Tracker - TeamPulse</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <script defer src="js/emotion-tracker.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>TeamPulse</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+                    <li><a href="emotion-input.html"><i class="fas fa-face-smile"></i>Emotion Input</a></li>
+                    <li><a href="emotion-tracker.html" class="active"><i class="fas fa-video"></i>Emotion Tracker</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i>History</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-comments"></i>Feedback</a></li>
+                    <li><a href="settings.html"><i class="fas fa-gear"></i>Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div id="camera">
+                <video id="video" width="720" height="560" autoplay muted></video>
+            </div>
+            <div id="microphone">
+                <button id="start-mic">Start Microphone</button>
+            </div>
+            <div id="analytics">
+                <canvas id="emotionChart"></canvas>
+            </div>
+            <div id="emojis">
+                <!-- Emojis will be dynamically updated here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/dashboard.js"></script>
+    <!-- <script src="js/emotionAnalyzer.js"></script> -->
+    <script src="js/emotion-tracker.js"></script>
+</body>
+</html>

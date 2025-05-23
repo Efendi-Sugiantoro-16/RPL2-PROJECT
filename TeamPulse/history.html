@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion History - TeamPulse</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Additional styles for the history page */
+        .session-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .session-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .session-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+        }
+        
+        .session-actions button:hover {
+            color: #2c3e50;
+        }
+        
+        .session-charts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .chart-wrapper {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .emotion-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .emotion-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            background-color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-controls select, .filter-controls input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+        }
+        
+        .no-data-message {
+            text-align: center;
+            padding: 3rem;
+            background-color: white;
+            border-radius: 10px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>TeamPulse</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+                    <li><a href="emotion-input.html"><i class="fas fa-face-smile"></i>Emotion Input</a></li>
+                    <li><a href="emotion-tracker.html"><i class="fas fa-video"></i>Emotion Tracker</a></li>
+                    <li><a href="history.html" class="active"><i class="fas fa-history"></i>History</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-comments"></i>Feedback</a></li>
+                    <li><a href="settings.html"><i class="fas fa-gear"></i>Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Emotion History</h1>
+                <p>Review and analyze past emotion recordings</p>
+            </header>
+            
+            <div class="filter-container">
+                <select id="filter-period">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+                <button id="export-history" class="btn">
+                    <i class="fas fa-download"></i> Export History
+                </button>
+            </div>
+            
+            <div id="history-entries">
+                <!-- Entries will be loaded here by JavaScript -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading history...
+                </div>
+            </div>
+            
+            <div class="filter-controls">
+                <select id="session-filter">
+                    <option value="all">All Sessions</option>
+                </select>
+                <select id="emotion-filter">
+                    <option value="all">All Emotions</option>
+                    <option value="happy">Happy</option>
+                    <option value="sad">Sad</option>
+                    <option value="angry">Angry</option>
+                    <option value="surprised">Surprised</option>
+                    <option value="fearful">Fearful</option>
+                    <option value="disgusted">Disgusted</option>
+                    <option value="neutral">Neutral</option>
+                </select>
+                <select id="source-filter">
+                    <option value="all">All Sources</option>
+                    <option value="visual">Visual</option>
+                    <option value="audio">Audio</option>
+                    <option value="combined">Combined</option>
+                </select>
+                <button id="clear-data" class="btn">Clear All Data</button>
+                <button id="export-all" class="btn">Export All Data</button>
+            </div>
+            
+            <div id="sessions-container">
+                <!-- Sessions will be loaded here -->
+                <div class="no-data-message">
+                    <h3>No emotion tracking data available</h3>
+                    <p>Use the Emotion Tracker to record and analyze your emotions</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/dataService.js"></script>
+    <script src="js/history.js"></script>
+    <style>
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .notification.success { background-color: #2ecc71; }
+        .notification.error { background-color: #e74c3c; }
+        .notification.info { background-color: #3498db; }
+        .notification.warning { background-color: #f39c12; }
+        .notification.fade-out { opacity: 0; }
+
+        /* History specific styles */
+        #history-entries {
+            margin-top: 20px;
+        }
+        .date-group {
+            margin-bottom: 30px;
+        }
+        .date-group h3 {
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .entry {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .entry-time {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        .entry-mood {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .mood-emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .entry-notes {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .entry-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        .btn-icon {
+            background: none;
+            border: none;
+            color: #95a5a6;
+            cursor: pointer;
+            font-size: 1em;
+            padding: 5px;
+        }
+        .btn-icon:hover {
+            color: #e74c3c;
+        }
+        .no-entries {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+        .no-entries i {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            color: #bdc3c7;
+        }
+        .filter-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-container select, 
+        .filter-container button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            font-size: 0.9em;
+        }
+        .filter-container button {
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .filter-container button:hover {
+            background: #2980b9;
+        }
+    </style>
+</body>
+</html>

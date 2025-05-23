@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Tracker - TeamPulse</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/meyda@5.6.2/dist/web/meyda.min.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>TeamPulse</h2>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="dashboard.html"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+          <li><a href="emotion-input.html"><i class="fas fa-face-smile"></i>Emotion Input</a></li>
+          <li><a href="emotion-tracker.html" class="active"><i class="fas fa-video"></i>Emotion Tracker</a></li>
+          <li><a href="history.html"><i class="fas fa-history"></i>History</a></li>
+          <li><a href="feedback.html"><i class="fas fa-comments"></i>Feedback</a></li>
+          <li><a href="settings.html"><i class="fas fa-gear"></i>Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="section-header">
+        <h2>Real-Time Emotion Tracker</h2>
+        <p>Detect facial and voice-based emotions in real-time</p>
+      </div>
+
+      <div class="chart-controls">
+        <button id="startDetection" class="btn">▶️ Mulai Deteksi</button>
+        <button id="stopDetection" class="btn">⏹️ Hentikan Deteksi</button>
+        <button id="downloadReport" class="btn">📥 Unduh Laporan</button>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+        <div style="position: relative;">
+          <video id="video" width="480" height="360" autoplay muted playsinline></video>
+          <canvas id="overlay" width="480" height="360"></canvas>
+        </div>
+
+        <div style="flex: 1; min-width: 300px;">
+          <h3>Detected Emotions</h3>
+          <div id="emojis"></div>
+          <canvas id="emotionChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+
+      <div class="audio-analysis-section">
+        <h3>Audio Emotion Analysis</h3>
+        <div class="audio-features">
+          <div class="feature-card">
+            <h4>Energy</h4>
+            <div class="meter-container">
+              <div id="energyMeter" class="meter"></div>
+            </div>
+          </div>
+          <div class="feature-card">
+            <h4>Loudness</h4>
+            <div class="meter-container">
+              <div id="loudnessMeter" class="meter"></div>
+            </div>
+          </div>
+          <div class="feature-card">
+            <h4>Speech Rate</h4>
+            <div class="meter-container">
+              <div id="speechRateMeter" class="meter"></div>
+            </div>
+          </div>
+        </div>
+        <canvas id="audioFeaturesChart" width="400" height="200"></canvas>
+        <div id="audioEmotionResult" class="audio-emotion-result">
+          <h4>Detected Voice Emotion: <span id="voiceEmotion">-</span></h4>
+          <p>Confidence: <span id="voiceConfidence">-</span></p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/emotion-tracker.js"></script>
+</body>
+</html>

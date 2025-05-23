@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - TeamPulse</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>TeamPulse</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+                    <li><a href="emotion-input.html"><i class="fas fa-face-smile"></i>Emotion Input</a></li>
+                    <li><a href="emotion-tracker.html"><i class="fas fa-video"></i>Emotion Tracker</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i>History</a></li>
+                    <li><a href="feedback.html" class="active"><i class="fas fa-comments"></i>Feedback</a></li>
+                    <li><a href="settings.html"><i class="fas fa-gear"></i>Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="section-header">
+                <h2>Feedback</h2>
+                <p>Share your experience and view team feedback</p>
+            </div>
+
+            <div class="feedback-tabs">
+                <button class="tab-btn active" data-tab="give-feedback">Give Feedback</button>
+                <button class="tab-btn" data-tab="view-feedback">View Feedback</button>
+            </div>
+
+            <div class="tab-content active" id="give-feedback">
+                <div class="feedback-form">
+                    <h3>Rate Your Experience</h3>
+                    <div class="rating">
+                        <input type="radio" name="rating" id="rate1" value="1">
+                        <label for="rate1">1</label>
+                        <input type="radio" name="rating" id="rate2" value="2">
+                        <label for="rate2">2</label>
+                        <input type="radio" name="rating" id="rate3" value="3">
+                        <label for="rate3">3</label>
+                        <input type="radio" name="rating" id="rate4" value="4">
+                        <label for="rate4">4</label>
+                        <input type="radio" name="rating" id="rate5" value="5">
+                        <label for="rate5">5</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackType">Type of Feedback</label>
+                        <select id="feedbackType">
+                            <option value="general">General Experience</option>
+                            <option value="emotion">Emotion Detection</option>
+                            <option value="interface">User Interface</option>
+                            <option value="suggestions">Suggestions</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackComment">Your Comments</label>
+                        <textarea id="feedbackComment" rows="5" placeholder="Share your thoughts..."></textarea>
+                    </div>
+
+                    <button id="submitFeedback" class="submit-btn">Submit Feedback</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="view-feedback">
+                <div class="feedback-list">
+                    <!-- Feedback items will be dynamically added here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/feedbackManager.js"></script>
+    <script src="js/feedback.js"></script>
+</body>
+</html>
